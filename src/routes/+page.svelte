@@ -4,6 +4,24 @@
 
     let board : Board = getBoard();
 </script>
+<div class="board">
 {#each board.lanes as lane}
-<h1>{lane.title}</h1>
+<div class="lane">
+    <h2>{lane.title}</h2>
+    {#each lane.items as item}
+    <div class="item">
+        <p>{item.title}</p>
+    </div>
+    {/each}
+</div>
 {/each}
+</div>
+<style>
+    *{
+        border: 1px solid #333;
+    }
+    .board{
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    }
+</style>

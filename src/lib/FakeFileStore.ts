@@ -6,7 +6,13 @@ export const getBoard = () : Board => {
         description: "My first board",
         lanes: [{
             title: "My first lane",
-            items: []
+            items: [
+                {title: "foo", description: "bar", prio: 1},
+                {title: "foo", description: "bar", prio: 1},
+                {title: "foo", description: "bar", prio: 1},
+                {title: "foo", description: "bar", prio: 1},
+                {title: "foo", description: "bar", prio: 1},
+            ]
         },
         {
             title: "My second lane",
