@@ -10,8 +10,8 @@
     let onDragOver = (e: any) =>{
         e.preventDefault();
     }
-    let onDragStart = (e: any) => {
-        e.dataTransfer.setData("text", e.target.id);
+    let onDragStart = (e: any, id: number) => {
+        e.dataTransfer.setData("text", id);
     }
 
 </script>
@@ -20,7 +20,7 @@
 <div on:drop={onDrop} on:dragover={onDragOver} class="lane">
     <h2>{lane.title}</h2>
     {#each lane.items as item,id}
-    <div id={id} on:dragstart={onDragStart} draggable=true class="item">
+    <div on:dragstart={(e) => onDragStart(e,id)} draggable=true class="item">
         <p>{item.title}</p>
     </div>
     {/each}
