@@ -1,6 +1,7 @@
 <script lang="ts">
     import { getBoard } from "$lib/FakeFileStore";
-    import type { Board } from "$lib/model";
+    import type { Board, Item } from "$lib/model";
+    let internalIds : {[id: string] : Item;} = {};
 
     let board : Board = getBoard();
     let onDrop = (e: any) =>{
@@ -11,7 +12,7 @@
         e.preventDefault();
     }
     let onDragStart = (e: any, id: number) => {
-        e.dataTransfer.setData("text", id);
+        e.dataTransfer.setData("itemId", id);
     }
 
 </script>
