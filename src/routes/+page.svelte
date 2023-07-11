@@ -41,11 +41,24 @@
 
         board.lanes[targetLaneIndex] = targetLane;
         board.lanes[currentLaneIndex] = currentLane;
+
+        let elem = document.getElementById(id)!;
+        elem.style.border = "initial";
+
         saveState();
     };
 
-    let onDragOver = (e: any) => {
+    let onDragOver = (e: any, id: string) => {
+
+        let elem = document.getElementById(id)!;
+        elem.style.border = "1px solid #555";
+
         e.preventDefault();
+    };
+
+    let onDragLeave = (id: string) => {
+        let elem = document.getElementById(id)!;
+        elem.style.border = "initial";
     };
 
     let onDragStart = (e: any, itemId: string, laneId: string) => {
@@ -81,9 +94,11 @@
 <div class="board">
     {#each board.lanes as lane}
         <div
+            id={lane.id}
             role="group"
             on:drop={(e) => onDrop(e, lane.id)}
-            on:dragover={onDragOver}
+            on:dragover={(e) => onDragOver(e, lane.id)}
+            on:dragleave={() => onDragLeave(lane.id)}
             class="lane"
         >
             <h2>{lane.title}</h2>
@@ -135,7 +150,7 @@
     }
 
     .lane {
-        border-radius: 1rem;
+        border-radius: 0.4rem;
         padding: 1rem;
         background-color: #222;
     }
@@ -148,7 +163,7 @@
 
     .item {
         min-height: 6rem;
-        border-radius: 1rem;
+        border-radius: 0.4rem;
         padding: 1rem;
         background-color: #333;
         cursor: move;
