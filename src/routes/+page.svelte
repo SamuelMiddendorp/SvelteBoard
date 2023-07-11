@@ -15,12 +15,8 @@
         }
 
         // Get indexes to make direct adjustment
-        let targetLaneIndex = board.lanes.indexOf(
-            board.lanes.find((x) => x.id == id)!
-        );
-        let currentLaneIndex = board.lanes.indexOf(
-            board.lanes.find((x) => x.id == currentLaneId)!
-        );
+        let targetLaneIndex = board.lanes.findIndex(l => l.id == id);
+        let currentLaneIndex = board.lanes.findIndex(l => l.id == currentLaneId);
 
         // Get lanes
         let targetLane = board.lanes[targetLaneIndex];
@@ -52,6 +48,13 @@
         let newLane = { id: uuidv4(), title: "sample lane", items: [] };
         board.lanes = [...board.lanes, newLane];
     };
+
+
+    let addItem = (laneId: string) => {
+        let lane = board.lanes.find(l => l.id == laneId)!;
+        lane.items = [...lane.items, {id: uuidv4(), title: "bar", description: "sample", prio: 1 }]
+        board.lanes[board.lanes.indexOf(lane)] = lane;        
+    }
 </script>
 
 <div class="board">
@@ -74,10 +77,13 @@
                         <p>{item.title}</p>
                     </div>
                 {/each}
+                <div class="center">
+                    <button on:click={() => addItem(lane.id)}>+</button>
+                </div>
             </div>
         </div>
     {/each}
-    <div class="add-lane">
+    <div class="center">
         <button on:click={() => addLane()}>+</button>
     </div>
 </div>
@@ -125,15 +131,14 @@
         background-color: #333;
         cursor: move;
     }
-
-    .add-lane {
+    .center{
         display: grid;
         place-content: center;
     }
 
-    .add-lane button {
+    button {
         all: unset;
         font-weight: 900;
-        font-size: 4rem;
+        font-size: 2rem;
     }
 </style>
