@@ -1,9 +1,9 @@
 <script lang="ts">
     import { getBoard } from "$lib/FakeFileStore";
-    import type { Board } from "$lib/model";
     import { v4 as uuidv4 } from 'uuid';
 
-    let board : Board = getBoard();
+    let board = getBoard();
+
     let onDrop = (e: any, id: string) =>{
         
         // Leverage setting of event data 
@@ -36,9 +36,11 @@
         board.lanes[currentLaneIndex] = currentLane;
         
     }
+
     let onDragOver = (e: any) =>{
         e.preventDefault();
     }
+
     let onDragStart = (e: any, itemId: string, laneId: string) => {
         // Set datatransfer when starting dragging of an item;
         e.dataTransfer.setData("itemId", itemId);
@@ -52,11 +54,11 @@
 </script>
 <div class="board">
 {#each board.lanes as lane}
-<div on:drop={(e) => onDrop(e, lane.id)} on:dragover={onDragOver} class="lane">
+<div role="group" on:drop={(e) => onDrop(e, lane.id)} on:dragover={onDragOver} class="lane">
     <h2>{lane.title}</h2>
     <div class="items">
     {#each lane.items as item}
-    <div on:dragstart={(e) => onDragStart(e,item.id, lane.id)} draggable=true class="item">
+    <div role="listitem" on:dragstart={(e) => onDragStart(e,item.id, lane.id)} draggable=true class="item">
         <p>{item.title}</p>
     </div>
     {/each}
@@ -77,9 +79,9 @@
         color: #fff;
     }
     :global(body){
-        height: 90vh;
         background-color: #111;
     }
+    
     .board{
         position: relative;
         padding: 2rem;
@@ -87,7 +89,6 @@
         gap: 2rem;
         height: 100%;
         grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
-        grid-template-rows: 1fr;
     }
     .lane{
         border-radius: 1rem;
