@@ -1,13 +1,19 @@
 <script lang="ts">
     import { getBoard } from "$lib/FakeFileStore";
     import type { Board } from "$lib/model";
+    import { v4 as uuidv4 } from 'uuid';
 
     let board : Board = getBoard();
     let onDrop = (e: any, id: string) =>{
+        
         // Leverage setting of event data 
         let itemId: string = e.dataTransfer.getData("itemId");
         let currentLaneId: string = e.dataTransfer.getData("laneId");
 
+        // When moving to itself, dont change
+        if(id == currentLaneId){
+            return;
+        }
         
         // Get indexes to make direct adjustment
         let targetLaneIndex = board.lanes.indexOf(board.lanes.find(x => x.id == id)!); 
@@ -38,6 +44,10 @@
         e.dataTransfer.setData("itemId", itemId);
         e.dataTransfer.setData("laneId", laneId);
     }
+    let addLane = () => {
+        let newLane = {id: uuidv4(), title: "sample lane", items:[] }
+        board.lanes = [...board.lanes, newLane];
+    }
 
 </script>
 <div class="board">
@@ -53,6 +63,9 @@
     </div>
 </div>
 {/each}
+    <div class="add-lane">
+        <button on:click={() => addLane()}>+</button>
+    </div>
 </div>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
@@ -92,5 +105,14 @@
         padding: 1rem;
         background-color: #333;
         cursor: move;
+    }
+    .add-lane{
+        display: grid;
+        place-content: center;
+    }
+    .add-lane button{
+        all: unset;
+        font-weight: 900;
+        font-size: 4rem;
     }
 </style>
