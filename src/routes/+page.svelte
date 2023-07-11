@@ -1,8 +1,14 @@
 <script lang="ts">
     import { getBoard } from "$lib/FakeFileStore";
+    import type { Board } from "$lib/model";
+    import { onMount } from "svelte";
     import { v4 as uuidv4 } from "uuid";
 
-    let board = getBoard();
+    let board: Board;
+    onMount(async () => {
+        board = await getBoard();
+  })
+
 
     let onDrop = (e: any, id: string) => {
         // Leverage setting of event data
@@ -15,8 +21,10 @@
         }
 
         // Get indexes to make direct adjustment
-        let targetLaneIndex = board.lanes.findIndex(l => l.id == id);
-        let currentLaneIndex = board.lanes.findIndex(l => l.id == currentLaneId);
+        let targetLaneIndex = board.lanes.findIndex((l) => l.id == id);
+        let currentLaneIndex = board.lanes.findIndex(
+            (l) => l.id == currentLaneId
+        );
 
         // Get lanes
         let targetLane = board.lanes[targetLaneIndex];
@@ -33,6 +41,7 @@
 
         board.lanes[targetLaneIndex] = targetLane;
         board.lanes[currentLaneIndex] = currentLane;
+        saveState();
     };
 
     let onDragOver = (e: any) => {
@@ -49,14 +58,26 @@
         board.lanes = [...board.lanes, newLane];
     };
 
-
     let addItem = (laneId: string) => {
-        let lane = board.lanes.find(l => l.id == laneId)!;
-        lane.items = [...lane.items, {id: uuidv4(), title: "bar", description: "sample", prio: 1 }]
-        board.lanes[board.lanes.indexOf(lane)] = lane;        
-    }
+        let lane = board.lanes.find((l) => l.id == laneId)!;
+        lane.items = [
+            ...lane.items,
+            { id: uuidv4(), title: "bar", description: "sample", prio: 1 },
+        ];
+        board.lanes[board.lanes.indexOf(lane)] = lane;
+        saveState();
+    };
+    let saveState = () => {
+        fetch("/api/board", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(board),
+        });
+    };
 </script>
-
+{#if board}
 <div class="board">
     {#each board.lanes as lane}
         <div
@@ -87,6 +108,7 @@
         <button on:click={() => addLane()}>+</button>
     </div>
 </div>
+{/if}
 
 <style>
     @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap");
@@ -131,7 +153,7 @@
         background-color: #333;
         cursor: move;
     }
-    .center{
+    .center {
         display: grid;
         place-content: center;
     }
