@@ -3,12 +3,12 @@ import { v4 as uuidv4 } from 'uuid';
 
 export const getBoard = async (): Promise<Board> => {
 
-    let board: Board;
-    board = await getSavedBoard();
-    console.log(board);
-    if("id" in board){
+    let board = await getSavedBoard();
+    // Very bad check to see if we actually found a board
+    if ("id" in board) {
         return board;
-    } 
+    }
+    // If no board is present use a default one 
     return {
         id: uuidv4(),
         title: "First Board",
@@ -44,7 +44,5 @@ const getSavedBoard = async (): Promise<Board> => {
             "Content-Type": "application/json",
         },
     });
-    let board = await res.json();
-    console.log(board);
-    return board;
+    return res.json();
 }
