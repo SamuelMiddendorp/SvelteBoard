@@ -10,11 +10,11 @@ export const getBoard = () : Board => {
             id: uuidv4(),
             title: "My first lane",
             items: [
-                {id: uuidv4(), title: "foo", description: "bar", prio: 1},
-                {id: uuidv4(), title: "foo", description: "bar", prio: 1},
-                {id: uuidv4(), title: "foo", description: "bar", prio: 1},
-                {id: uuidv4(), title: "foo", description: "bar", prio: 1},
-                {id: uuidv4(), title: "foo", description: "bar", prio: 1},
+                {id: uuidv4(), title: "foo11", description: "bar", prio: 1},
+                {id: uuidv4(), title: "foo22", description: "bar", prio: 1},
+                {id: uuidv4(), title: "foo33", description: "bar", prio: 1},
+                {id: uuidv4(), title: "foo44", description: "bar", prio: 1},
+                {id: uuidv4(), title: "foo55", description: "bar", prio: 1},
             ]
         },
         {

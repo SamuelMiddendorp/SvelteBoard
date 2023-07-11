@@ -1,16 +1,40 @@
 <script lang="ts">
     import { getBoard } from "$lib/FakeFileStore";
-    import type { Board, Item } from "$lib/model";
+    import type { Board } from "$lib/model";
 
     let board : Board = getBoard();
-    let onDrop = (e: any) =>{
-        let itemId = e.dataTransfer.getData("itemId");
-        let originalLaneId = e.dataTransfer.getData("laneId");
+    let onDrop = (e: any, id: string) =>{
+        // Leverage setting of event data 
+        let itemId: string = e.dataTransfer.getData("itemId");
+        let currentLaneId: string = e.dataTransfer.getData("laneId");
+
+        
+        // Get indexes to make direct adjustment
+        let targetLaneIndex = board.lanes.indexOf(board.lanes.find(x => x.id == id)!); 
+        let currentLaneIndex = board.lanes.indexOf(board.lanes.find(x => x.id == currentLaneId)!); 
+
+        // Get lanes
+        let targetLane = board.lanes[targetLaneIndex];
+        let currentLane = board.lanes[currentLaneIndex];
+       
+        // Get item
+        let item = board.lanes[currentLaneIndex].items.find(i => i.id == itemId)!;
+
+        // Remove from existing and add to new;
+        targetLane.items = [...targetLane.items, item]; 
+        currentLane.items = currentLane.items.filter(i => i.id != itemId);
+
+        // Update board
+
+        board.lanes[targetLaneIndex] = targetLane;
+        board.lanes[currentLaneIndex] = currentLane;
+        
     }
     let onDragOver = (e: any) =>{
         e.preventDefault();
     }
-    let onDragStart = (e: any, itemId: number, laneId: number) => {
+    let onDragStart = (e: any, itemId: string, laneId: string) => {
+        // Set datatransfer when starting dragging of an item;
         e.dataTransfer.setData("itemId", itemId);
         e.dataTransfer.setData("laneId", laneId);
     }
@@ -18,10 +42,10 @@
 </script>
 <div class="board">
 {#each board.lanes as lane}
-<div on:drop={onDrop} on:dragover={onDragOver} class="lane">
+<div on:drop={(e) => onDrop(e, lane.id)} on:dragover={onDragOver} class="lane">
     <h2>{lane.title}</h2>
-    {#each lane.items as item,id}
-    <div on:dragstart={(e) => onDragStart(e,item.id, lanel.id)} draggable=true class="item">
+    {#each lane.items as item}
+    <div on:dragstart={(e) => onDragStart(e,item.id, lane.id)} draggable=true class="item">
         <p>{item.title}</p>
     </div>
     {/each}
