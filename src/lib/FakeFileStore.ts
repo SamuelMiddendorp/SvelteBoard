@@ -22,6 +22,11 @@ export const getBoard = () : Board => {
             title: "My second lane",
             items: []
         },
+        {
+            id: uuidv4(),
+            title: "My third lane",
+            items: []
+        },
     ],
     }
 }
