@@ -44,23 +44,53 @@
 {#each board.lanes as lane}
 <div on:drop={(e) => onDrop(e, lane.id)} on:dragover={onDragOver} class="lane">
     <h2>{lane.title}</h2>
+    <div class="items">
     {#each lane.items as item}
     <div on:dragstart={(e) => onDragStart(e,item.id, lane.id)} draggable=true class="item">
         <p>{item.title}</p>
     </div>
     {/each}
+    </div>
 </div>
 {/each}
 </div>
 <style>
-    *{
-        border: 1px solid #333;
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+    :global(*){
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+        color: #fff;
+    }
+    :global(body){
+        height: 90vh;
+        background-color: #111;
     }
     .board{
+        position: relative;
+        padding: 2rem;
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+        gap: 2rem;
+        height: 100%;
+        grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+        grid-template-rows: 1fr;
+    }
+    .lane{
+        border-radius: 1rem;
+        padding: 1rem;
+        background-color: #222;
+    }
+    .items{
+        margin-top: 2rem;
+        display: grid;
+        gap: 1rem;
     }
     .item{
+        min-height: 6rem;
+        border-radius: 1rem;
+        padding: 1rem;
+        background-color: #333;
         cursor: move;
     }
 </style>
