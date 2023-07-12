@@ -101,7 +101,7 @@
             on:dragleave={() => onDragLeave(lane.id)}
             class="lane"
         >
-            <h2>{lane.title}</h2>
+            <input type="text" class="input-h2" bind:value={lane.title}>
             <div class="items">
                 {#each lane.items as item}
                     <div
@@ -142,6 +142,11 @@
 
     input{
         all: unset;
+    }
+    .input-h2{
+        display: block;
+        max-width: 100%;
+        font-size: 1.5rem;
     }
 
     .board {
