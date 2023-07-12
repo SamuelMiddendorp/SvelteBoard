@@ -110,7 +110,7 @@
                         draggable="true"
                         class="item"
                     >
-                        <p>{item.title}</p>
+                        <input type="text" bind:value={item.title}>
                     </div>
                 {/each}
                 <div class="center">
@@ -138,6 +138,10 @@
 
     :global(body) {
         background-color: #111;
+    }
+
+    input{
+        all: unset;
     }
 
     .board {
