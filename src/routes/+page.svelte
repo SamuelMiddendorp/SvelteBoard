@@ -1,6 +1,6 @@
 <script lang="ts">
     import { getBoard } from "$lib/FakeFileStore";
-    import type { Board } from "$lib/model";
+    import type { Board, Lane } from "$lib/model";
     import { onMount } from "svelte";
     import { v4 as uuidv4 } from "uuid";
 
@@ -80,6 +80,9 @@
         board.lanes[board.lanes.indexOf(lane)] = lane;
         saveState();
     };
+    let deleteLane = (lane: Lane) => {
+        board.lanes = board.lanes.filter(x => x != lane);
+    }
     let saveState = () => {
         fetch("/api/board", {
             method: "POST",
@@ -117,6 +120,7 @@
                     <button on:click={() => addItem(lane.id)}>+</button>
                 </div>
             </div>
+            <button on:click={() => deleteLane(lane)} class="del-button">-</button>
         </div>
     {/each}
     <div class="center">
@@ -148,6 +152,13 @@
         max-width: 100%;
         font-size: 1.5rem;
     }
+    .del-button{
+        display: block;
+        position: absolute;
+        bottom: 0;
+        padding: 0.4rem;
+        left: 1rem;
+    }
 
     .board {
         position: relative;
@@ -159,6 +170,7 @@
     }
 
     .lane {
+        position: relative;
         border-radius: 0.4rem;
         padding: 1rem;
         background-color: #222;
