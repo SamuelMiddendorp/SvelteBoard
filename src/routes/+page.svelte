@@ -114,6 +114,7 @@
                         class="item"
                     >
                         <input type="text" bind:value={item.title}>
+                        <button on:click={() => lane.items = lane.items.filter(x => x!= item)} class="del-button">-</button>
                     </div>
                 {/each}
                 <div class="center">
@@ -183,6 +184,7 @@
     }
 
     .item {
+        position: relative;
         min-height: 6rem;
         border-radius: 0.4rem;
         padding: 1rem;
