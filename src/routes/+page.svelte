@@ -157,7 +157,6 @@
         display: block;
         position: absolute;
         bottom: 0;
-        padding: 0.4rem;
         left: 1rem;
     }
 
@@ -189,7 +188,7 @@
         border-radius: 0.4rem;
         padding: 1rem;
         background-color: #333;
-        cursor: move;
+        cursor: grab;
     }
     .center {
         display: grid;
@@ -200,5 +199,6 @@
         all: unset;
         font-weight: 900;
         font-size: 2rem;
+        cursor: pointer;
     }
 </style>
