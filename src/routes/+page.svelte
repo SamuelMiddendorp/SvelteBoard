@@ -147,11 +147,13 @@
 
     input{
         all: unset;
+        cursor: text;
     }
     .input-h2{
         display: block;
         max-width: 100%;
         font-size: 1.5rem;
+        cursor: text;
     }
     .del-button{
         display: block;
