@@ -69,6 +69,7 @@
     let addLane = () => {
         let newLane = { id: uuidv4(), title: "sample lane", items: [] };
         board.lanes = [...board.lanes, newLane];
+        saveState();
     };
 
     let addItem = (laneId: string) => {
@@ -82,6 +83,7 @@
     };
     let deleteLane = (lane: Lane) => {
         board.lanes = board.lanes.filter(x => x != lane);
+        saveState();
     }
     let saveState = () => {
         fetch("/api/board", {
