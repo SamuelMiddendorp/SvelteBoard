@@ -3,22 +3,17 @@
     import type { Board, Lane } from "$lib/model";
     import { onMount } from "svelte";
     import { v4 as uuidv4 } from "uuid";
-
+    let currentDropTarget: string;
     let board: Board;
     onMount(async () => {
         board = await getBoard();
   })
-
-
+    
     let onDrop = (e: any, id: string) => {
+
         // Leverage setting of event data
         let itemId: string = e.dataTransfer.getData("itemId");
         let currentLaneId: string = e.dataTransfer.getData("laneId");
-
-        // When moving to itself, dont change
-        if (id == currentLaneId) {
-            return;
-        }
 
         // Get indexes to make direct adjustment
         let targetLaneIndex = board.lanes.findIndex((l) => l.id == id);
@@ -33,10 +28,15 @@
         // Get item
         let item = currentLane.items.find((i) => i.id == itemId)!;
 
-        // Remove from existing and add to new;
-        targetLane.items = [...targetLane.items, item];
         currentLane.items = currentLane.items.filter((i) => i.id != itemId);
+        targetLane.items = [...targetLane.items, item];
 
+        let targetIndex = targetLane.items.findIndex(i => i.id == currentDropTarget);
+
+        // Remove first then splice back into the list
+        targetLane.items = targetLane.items.filter(x => x.id != item.id);
+        targetLane.items.splice(targetIndex,0,item);
+        console.log(targetLane);
         // Update board
 
         board.lanes[targetLaneIndex] = targetLane;
@@ -44,6 +44,10 @@
 
         let elem = document.getElementById(id)!;
         elem.style.border = "initial";
+
+
+
+
 
         saveState();
     };
@@ -108,10 +112,11 @@
         >
             <input type="text" class="input-h2" bind:value={lane.title}>
             <div class="items">
-                {#each lane.items as item}
+                {#each lane.items as item (item.id)}
                     <div
                         role="listitem"
                         on:dragstart={(e) => onDragStart(e, item.id, lane.id)}
+                        on:dragover={() => currentDropTarget = item.id}
                         draggable="true"
                         class="item"
                     >
