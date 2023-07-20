@@ -31,10 +31,12 @@
         currentLane.items = currentLane.items.filter((i) => i.id != itemId);
         targetLane.items = [...targetLane.items, item];
 
-        let targetIndex = targetLane.items.findIndex(i => i.id == currentDropTarget);
 
         // Remove first then splice back into the list
         targetLane.items = targetLane.items.filter(x => x.id != item.id);
+
+        let targetIndex = targetLane.items.findIndex(i => i.id == currentDropTarget);
+        
         targetLane.items.splice(targetIndex,0,item);
         console.log(targetLane);
         // Update board
