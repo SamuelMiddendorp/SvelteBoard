@@ -7,10 +7,9 @@
     let board: Board;
     onMount(async () => {
         board = await getBoard();
-  })
-    
-    let onDrop = (e: any, id: string) => {
+    });
 
+    let onDrop = (e: any, id: string) => {
         // Leverage setting of event data
         let itemId: string = e.dataTransfer.getData("itemId");
         let currentLaneId: string = e.dataTransfer.getData("laneId");
@@ -27,21 +26,26 @@
 
         // Get item
         let item = currentLane.items.find((i) => i.id == itemId)!;
+        if (currentLane.id != targetLane.id) {
+            currentLane.items = currentLane.items.filter((i) => i.id != itemId);
+            targetLane.items = [...targetLane.items, item];
+        }
 
-        currentLane.items = currentLane.items.filter((i) => i.id != itemId);
-        targetLane.items = [...targetLane.items, item];
+        if (currentDropTarget != itemId) {
+            // Remove first then splice back into the list
+            targetLane.items = targetLane.items.filter((x) => x.id != item.id);
 
-        if(currentDropTarget != itemId){
-        // Remove first then splice back into the list
-            targetLane.items = targetLane.items.filter(x => x.id != item.id);
+            let targetIndex = targetLane.items.findIndex(
+                (i) => i.id == currentDropTarget
+            );
+            let targetItem = targetLane.items.find(
+                (i) => i.id == currentDropTarget
+            );
 
-            let targetIndex = targetLane.items.findIndex(i => i.id == currentDropTarget);
-            let targetItem = targetLane.items.find(i => i.id == currentDropTarget);
-            
             console.log(targetItem);
             console.log(targetIndex);
 
-            targetLane.items.splice(targetIndex + 1,0,item);
+            targetLane.items.splice(targetIndex, 0, item);
             console.log(targetLane);
         }
         // Update board
@@ -52,14 +56,12 @@
         let elem = document.getElementById(id)!;
         elem.style.border = "initial";
 
-
         currentDropTarget = "";
 
         saveState();
     };
 
     let onDragOver = (e: any, id: string) => {
-
         let elem = document.getElementById(id)!;
         elem.style.border = "1px solid #555";
 
@@ -92,9 +94,9 @@
         saveState();
     };
     let deleteLane = (lane: Lane) => {
-        board.lanes = board.lanes.filter(x => x != lane);
+        board.lanes = board.lanes.filter((x) => x != lane);
         saveState();
-    }
+    };
     let saveState = () => {
         fetch("/api/board", {
             method: "POST",
@@ -105,42 +107,52 @@
         });
     };
 </script>
+
 {#if board}
-<div class="board">
-    {#each board.lanes as lane}
-        <div
-            id={lane.id}
-            role="group"
-            on:drop={(e) => onDrop(e, lane.id)}
-            on:dragover={(e) => onDragOver(e, lane.id)}
-            on:dragleave={() => onDragLeave(lane.id)}
-            class="lane"
-        >
-            <input type="text" class="input-h2" bind:value={lane.title}>
-            <div class="items">
-                {#each lane.items as item (item.id)}
-                    <div
-                        role="listitem"
-                        on:dragstart={(e) => onDragStart(e, item.id, lane.id)}
-                        on:dragover={() => currentDropTarget = item.id}
-                        draggable="true"
-                        class="item"
-                    >
-                        <input type="text" bind:value={item.title}>
-                        <button on:click={() => lane.items = lane.items.filter(x => x!= item)} class="del-button">-</button>
+    <div class="board">
+        {#each board.lanes as lane}
+            <div
+                id={lane.id}
+                role="group"
+                on:drop={(e) => onDrop(e, lane.id)}
+                on:dragover={(e) => onDragOver(e, lane.id)}
+                on:dragleave={() => onDragLeave(lane.id)}
+                class="lane"
+            >
+                <input type="text" class="input-h2" bind:value={lane.title} />
+                <div class="items">
+                    {#each lane.items as item (item.id)}
+                        <div
+                            role="listitem"
+                            on:dragstart={(e) =>
+                                onDragStart(e, item.id, lane.id)}
+                            on:dragover={() => (currentDropTarget = item.id)}
+                            draggable="true"
+                            class="item"
+                        >
+                            <input type="text" bind:value={item.title} />
+                            <button
+                                on:click={() =>
+                                    (lane.items = lane.items.filter(
+                                        (x) => x != item
+                                    ))}
+                                class="del-button">-</button
+                            >
+                        </div>
+                    {/each}
+                    <div class="center">
+                        <button on:click={() => addItem(lane.id)}>+</button>
                     </div>
-                {/each}
-                <div class="center">
-                    <button on:click={() => addItem(lane.id)}>+</button>
                 </div>
+                <button on:click={() => deleteLane(lane)} class="del-button"
+                    >-</button
+                >
             </div>
-            <button on:click={() => deleteLane(lane)} class="del-button">-</button>
+        {/each}
+        <div class="center">
+            <button on:click={() => addLane()}>+</button>
         </div>
-    {/each}
-    <div class="center">
-        <button on:click={() => addLane()}>+</button>
     </div>
-</div>
 {/if}
 
 <style>
@@ -158,17 +170,17 @@
         background-color: #111;
     }
 
-    input{
+    input {
         all: unset;
         cursor: text;
     }
-    .input-h2{
+    .input-h2 {
         display: block;
         max-width: 100%;
         font-size: 1.5rem;
         cursor: text;
     }
-    .del-button{
+    .del-button {
         display: block;
         position: absolute;
         bottom: 0;
