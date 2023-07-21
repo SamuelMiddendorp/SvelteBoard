@@ -31,14 +31,19 @@
         currentLane.items = currentLane.items.filter((i) => i.id != itemId);
         targetLane.items = [...targetLane.items, item];
 
-
+        if(currentDropTarget != itemId){
         // Remove first then splice back into the list
-        targetLane.items = targetLane.items.filter(x => x.id != item.id);
+            targetLane.items = targetLane.items.filter(x => x.id != item.id);
 
-        let targetIndex = targetLane.items.findIndex(i => i.id == currentDropTarget);
-        
-        targetLane.items.splice(targetIndex,0,item);
-        console.log(targetLane);
+            let targetIndex = targetLane.items.findIndex(i => i.id == currentDropTarget);
+            let targetItem = targetLane.items.find(i => i.id == currentDropTarget);
+            
+            console.log(targetItem);
+            console.log(targetIndex);
+
+            targetLane.items.splice(targetIndex + 1,0,item);
+            console.log(targetLane);
+        }
         // Update board
 
         board.lanes[targetLaneIndex] = targetLane;
@@ -48,8 +53,7 @@
         elem.style.border = "initial";
 
 
-
-
+        currentDropTarget = "";
 
         saveState();
     };
