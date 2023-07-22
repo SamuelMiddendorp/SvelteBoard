@@ -1,11 +1,11 @@
 import type { Board } from "./model";
 import { v4 as uuidv4 } from 'uuid';
 
-export const getBoard = async (): Promise<Board> => {
+export const getBoard = () : Board => {
 
-    let board = await getSavedBoard();
+    let board = getSavedBoard();
     // Very bad check to see if we actually found a board
-    if ("id" in board) {
+    if(board != null){
         return board;
     }
     // If no board is present use a default one 
@@ -37,12 +37,11 @@ export const getBoard = async (): Promise<Board> => {
         ],
     }
 }
-const getSavedBoard = async (): Promise<Board> => {
-    let res = await fetch('/api/board', {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
-    return res.json();
+
+export const setBoard = (board: Board) => {
+    localStorage.setItem("svelteboard-board", JSON.stringify(board));
+}
+
+const getSavedBoard = () : Board => {
+    return JSON.parse(localStorage.getItem("svelteboard-board")!);
 }

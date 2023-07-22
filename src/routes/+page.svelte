@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getBoard } from "$lib/FakeFileStore";
+    import { getBoard, setBoard } from "$lib/FakeFileStore";
     import type { Board, Lane } from "$lib/model";
     import { onMount } from "svelte";
     import { v4 as uuidv4 } from "uuid";
@@ -94,13 +94,7 @@
         saveState();
     };
     let saveState = () => {
-        fetch("/api/board", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(board),
-        });
+        setBoard(board);
     };
 </script>
 
