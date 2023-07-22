@@ -182,7 +182,6 @@
         padding: 2rem;
         display: grid;
         gap: 2rem;
-        height: 100%;
         grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
     }
 
@@ -200,6 +199,7 @@
     }
 
     .item {
+        overflow: hidden;
         position: relative;
         min-height: 6rem;
         border-radius: 0.4rem;
