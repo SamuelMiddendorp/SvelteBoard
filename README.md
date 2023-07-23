@@ -4,5 +4,7 @@ I have some problems focusing on projects so I made this side project to help me
 
 It leverages the drag and drop API
 
+V1 is available on https://svelteboard.samuelmiddendorp.com
+
 
 
