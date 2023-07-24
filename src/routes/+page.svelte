@@ -89,6 +89,24 @@
         board.lanes[board.lanes.indexOf(lane)] = lane;
         saveState();
     };
+    let duplicateItem = (itemId: string, laneId: string) => {
+        let lane = board.lanes.find(l => l.id == laneId)!;
+        let laneIndex = board.lanes.findIndex(l => l.id == laneId)!;
+        let item = lane.items.find(i => i.id == itemId)!;
+        let itemIndex = lane.items.findIndex(i => i.id == itemId); 
+
+        // copy over
+        let newItem = {
+            id: uuidv4(), 
+            title: item.title,
+            description: item.description,
+            prio: item.prio
+        }
+
+        lane.items.splice(itemIndex, 0, newItem);
+        board.lanes[laneIndex] = lane;
+        
+    }
     let deleteLane = (lane: Lane) => {
         board.lanes = board.lanes.filter((x) => x != lane);
         saveState();
@@ -128,6 +146,12 @@
                                     ))}
                                 class="del-button">-</button
                             >
+                            <button
+                                    on:click={() => duplicateItem(item.id, lane.id)}
+                                    class="duplicate-button"
+                                    >
+                                    ⧉
+                                    </button>
                         </div>
                     {/each}
                     <div class="center">
@@ -175,6 +199,12 @@
         position: absolute;
         bottom: 0;
         left: 1rem;
+    }
+    .duplicate-button {
+        display: block;
+        position: absolute;
+        bottom: 0;
+        right: 1rem;
     }
 
     .board {
