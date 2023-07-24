@@ -105,7 +105,7 @@
 
         lane.items.splice(itemIndex, 0, newItem);
         board.lanes[laneIndex] = lane;
-        
+
     }
     let deleteLane = (lane: Lane) => {
         board.lanes = board.lanes.filter((x) => x != lane);
@@ -202,6 +202,7 @@
     }
     .duplicate-button {
         display: block;
+        font-size: 1.2rem;
         position: absolute;
         bottom: 0;
         right: 1rem;
