@@ -11,5 +11,12 @@ jobs:
           node-version: 18
       - run: npm install
       - run: npm run build
-      - run: ls
+      - run: mv build svelteboard
+      - uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          source: "svelteboard"
+          target: /var/www
   
