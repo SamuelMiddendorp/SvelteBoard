@@ -1,0 +1,9 @@
+on:
+  workflow_dispatch:
+    branches: [ main ]
+jobs:
+  test_workflow:
+    runs-ons: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: ls
