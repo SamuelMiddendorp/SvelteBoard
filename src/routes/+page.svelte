@@ -160,7 +160,7 @@
                     </div>
                 </div>
                 <button on:click={() => deleteLane(lane)} class="del-button"
-                    >-</button
+                    >🗑</button
                 >
             </div>
         {/each}
