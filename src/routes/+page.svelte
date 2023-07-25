@@ -33,7 +33,9 @@
 
         if (currentDropTarget != itemId) {
             // Remove first then splice back into the list
-            let currentIndex = targetLane.items.findIndex(x => x.id == item.id);
+            let currentIndex = targetLane.items.findIndex(
+                (x) => x.id == item.id
+            );
             targetLane.items = targetLane.items.filter((x) => x.id != item.id);
 
             let targetIndex = targetLane.items.findIndex(
@@ -41,7 +43,8 @@
             );
 
             console.log(targetIndex);
-            let indexToSplice = currentIndex > targetIndex ? targetIndex : targetIndex + 1; 
+            let indexToSplice =
+                currentIndex > targetIndex ? targetIndex : targetIndex + 1;
             targetLane.items.splice(indexToSplice, 0, item);
             console.log(targetLane);
         }
@@ -52,7 +55,6 @@
 
         let elem = document.getElementById(id)!;
         elem.style.border = "initial";
-
 
         saveState();
     };
@@ -90,23 +92,22 @@
         saveState();
     };
     let duplicateItem = (itemId: string, laneId: string) => {
-        let lane = board.lanes.find(l => l.id == laneId)!;
-        let laneIndex = board.lanes.findIndex(l => l.id == laneId)!;
-        let item = lane.items.find(i => i.id == itemId)!;
-        let itemIndex = lane.items.findIndex(i => i.id == itemId); 
+        let lane = board.lanes.find((l) => l.id == laneId)!;
+        let laneIndex = board.lanes.findIndex((l) => l.id == laneId)!;
+        let item = lane.items.find((i) => i.id == itemId)!;
+        let itemIndex = lane.items.findIndex((i) => i.id == itemId);
 
         // copy over
         let newItem = {
-            id: uuidv4(), 
+            id: uuidv4(),
             title: item.title,
             description: item.description,
-            prio: item.prio
-        }
+            prio: item.prio,
+        };
 
         lane.items.splice(itemIndex, 0, newItem);
         board.lanes[laneIndex] = lane;
-
-    }
+    };
     let deleteLane = (lane: Lane) => {
         board.lanes = board.lanes.filter((x) => x != lane);
         saveState();
@@ -147,11 +148,11 @@
                                 class="del-button">-</button
                             >
                             <button
-                                    on:click={() => duplicateItem(item.id, lane.id)}
-                                    class="duplicate-button"
-                                    >
-                                    ⧉
-                                    </button>
+                                on:click={() => duplicateItem(item.id, lane.id)}
+                                class="duplicate-button"
+                            >
+                                ⧉
+                            </button>
                         </div>
                     {/each}
                     <div class="center">
@@ -245,8 +246,13 @@
 
     button {
         all: unset;
+        transition: all 0.4s ease-out;
         font-weight: 900;
         font-size: 2rem;
         cursor: pointer;
+    }
+    button:hover{
+        transform: translateY(-0.2rem);
+        color: #999;
     }
 </style>
