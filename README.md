@@ -6,5 +6,7 @@ It leverages the drag and drop API
 
 V1 is available on https://svelteboard.samuelmiddendorp.com
 
+**Now with automated deployments!**
+
 
 
