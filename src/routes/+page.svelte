@@ -204,7 +204,7 @@
     }
     .duplicate-button {
         display: block;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         position: absolute;
         bottom: 0;
         right: 1rem;
