@@ -145,7 +145,7 @@
                                     (lane.items = lane.items.filter(
                                         (x) => x != item
                                     ))}
-                                class="del-button">🗑</button
+                                class="del-button">-</button
                             >
                             <button
                                 on:click={() => duplicateItem(item.id, lane.id)}
@@ -160,7 +160,7 @@
                     </div>
                 </div>
                 <button on:click={() => deleteLane(lane)} class="del-button"
-                    >🗑</button
+                    >-</button
                 >
             </div>
         {/each}
