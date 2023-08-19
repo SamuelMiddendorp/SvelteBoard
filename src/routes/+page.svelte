@@ -153,7 +153,8 @@
                             >
                                 ⧉
                             </button>
-                            <span style:background-color={item.color} class="color"></span>
+                            <div style:background-color={item.color} class="color">
+                            <input type="color" bind:value={item.color}></div>
                         </div>
                     {/each}
                     <div class="center">
@@ -199,13 +200,26 @@
     }
 
     .color{
+        transition: all 0.2s ease-in-out;
         border-top-left-radius: 0.2rem;
         border-bottom-right-radius: 0.2rem;
-        width: 5rem;
-        height: 0.4rem;
+        min-width: 5rem;
+        min-height: 0.6rem;
         position: absolute;
         top: 0;
         left: 0;
+    }
+    .color:hover{
+        transform: scaleX(1.2);
+    }
+    .color:hover input{
+        cursor: pointer;
+        display: block;
+    }
+    .color input{
+        opacity: 0;
+        display: none;
+        width: 5rem;
     }
     .del-button {
         display: block;
