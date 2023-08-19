@@ -86,7 +86,7 @@
         let lane = board.lanes.find((l) => l.id == laneId)!;
         lane.items = [
             ...lane.items,
-            { id: uuidv4(), title: "bar", description: "sample", prio: 1 },
+            { id: uuidv4(), title: "bar", description: "sample", prio: 1, color: "#444" },
         ];
         board.lanes[board.lanes.indexOf(lane)] = lane;
         saveState();
@@ -103,6 +103,7 @@
             title: item.title,
             description: item.description,
             prio: item.prio,
+            color: item.color
         };
 
         lane.items.splice(itemIndex, 0, newItem);
