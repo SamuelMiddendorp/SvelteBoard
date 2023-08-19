@@ -13,5 +13,6 @@ export interface Item{
     id: string,
     title: string,
     description: string,
-    prio: number
+    prio: number,
+    color: string
 }

@@ -86,7 +86,7 @@
         let lane = board.lanes.find((l) => l.id == laneId)!;
         lane.items = [
             ...lane.items,
-            { id: uuidv4(), title: "bar", description: "sample", prio: 1 },
+            { id: uuidv4(), title: "bar", description: "sample", prio: 1, color: "#444" },
         ];
         board.lanes[board.lanes.indexOf(lane)] = lane;
         saveState();
@@ -103,6 +103,7 @@
             title: item.title,
             description: item.description,
             prio: item.prio,
+            color: item.color
         };
 
         lane.items.splice(itemIndex, 0, newItem);
@@ -153,6 +154,8 @@
                             >
                                 ⧉
                             </button>
+                            <div style:background-color={item.color ?? "#444"} class="color">
+                            <input type="color" bind:value={item.color}></div>
                         </div>
                     {/each}
                     <div class="center">
@@ -189,11 +192,35 @@
         all: unset;
         cursor: text;
     }
+
     .input-h2 {
         display: block;
         max-width: 100%;
         font-size: 1.5rem;
         cursor: text;
+    }
+
+    .color{
+        transition: transform 0.2s ease-in-out;
+        border-top-left-radius: 0.2rem;
+        border-bottom-right-radius: 0.2rem;
+        min-width: 5rem;
+        min-height: 0.6rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .color:hover{
+        transform: scaleX(1.2);
+    }
+    .color:hover input{
+        cursor: pointer;
+        display: block;
+    }
+    .color input{
+        opacity: 0;
+        display: none;
+        width: 5rem;
     }
     .del-button {
         display: block;
@@ -202,6 +229,7 @@
         bottom: 0;
         left: 1rem;
     }
+
     .duplicate-button {
         display: block;
         font-size: 1.1rem;
@@ -240,6 +268,7 @@
         background-color: #333;
         cursor: grab;
     }
+
     .center {
         display: grid;
         place-content: center;
@@ -252,6 +281,7 @@
         font-size: 2rem;
         cursor: pointer;
     }
+
     button:hover{
         transform: translateY(-0.2rem);
         color: #999;
