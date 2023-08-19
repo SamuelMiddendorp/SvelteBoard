@@ -155,7 +155,7 @@
                                 ⧉
                             </button>
                             <div style:background-color={item.color ?? "#444"} class="color">
-                            <input type="color" bind:value={item.color}></div>
+                            <input type="color" on:change={() => saveState()} bind:value={item.color}></div>
                         </div>
                     {/each}
                     <div class="center">
