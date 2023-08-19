@@ -153,7 +153,7 @@
                             >
                                 ⧉
                             </button>
-                            <div style:background-color={item.color} class="color">
+                            <div style:background-color={item.color ?? "#444"} class="color">
                             <input type="color" bind:value={item.color}></div>
                         </div>
                     {/each}
@@ -200,7 +200,7 @@
     }
 
     .color{
-        transition: all 0.2s ease-in-out;
+        transition: transform 0.2s ease-in-out;
         border-top-left-radius: 0.2rem;
         border-bottom-right-radius: 0.2rem;
         min-width: 5rem;
