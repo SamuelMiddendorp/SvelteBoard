@@ -153,6 +153,7 @@
                             >
                                 ⧉
                             </button>
+                            <span style:background-color={item.color} class="color"></span>
                         </div>
                     {/each}
                     <div class="center">
@@ -189,11 +190,22 @@
         all: unset;
         cursor: text;
     }
+
     .input-h2 {
         display: block;
         max-width: 100%;
         font-size: 1.5rem;
         cursor: text;
+    }
+
+    .color{
+        border-top-left-radius: 0.2rem;
+        border-bottom-right-radius: 0.2rem;
+        width: 5rem;
+        height: 0.4rem;
+        position: absolute;
+        top: 0;
+        left: 0;
     }
     .del-button {
         display: block;
@@ -202,6 +214,7 @@
         bottom: 0;
         left: 1rem;
     }
+
     .duplicate-button {
         display: block;
         font-size: 1.1rem;
@@ -240,6 +253,7 @@
         background-color: #333;
         cursor: grab;
     }
+
     .center {
         display: grid;
         place-content: center;
@@ -252,6 +266,7 @@
         font-size: 2rem;
         cursor: pointer;
     }
+
     button:hover{
         transform: translateY(-0.2rem);
         color: #999;
