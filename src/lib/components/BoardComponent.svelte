@@ -1,10 +1,11 @@
 <script lang="ts">
-    import { getBoard, setBoard } from "$lib/FakeFileStore";
+    import { setBoard } from "$lib/FakeFileStore";
     import type { Board, Lane } from "$lib/model";
     import { v4 as uuidv4 } from "uuid";
-    
+
     let currentDropTarget: string;
     export let board: Board;
+    export let shouldSaveState = true;
     let onDrop = (e: any, id: string) => {
         // Leverage setting of event data
         let itemId: string = e.dataTransfer.getData("itemId");
@@ -110,7 +111,10 @@
         saveState();
     };
     let saveState = () => {
-        setBoard(board);
+        console.log(`Board updated to ${JSON.stringify(board)}`)
+        if(shouldSaveState){
+            setBoard(board);
+        }
     };
 </script>
 
