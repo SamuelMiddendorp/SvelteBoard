@@ -13,7 +13,7 @@ https://svelteboard.samuelmiddendorp.com/tcgbuddy
 
 
 
-**Now with automated deployments!**
+**Now with automated deployments and colors!**
 
 
 
