@@ -2,7 +2,7 @@
 
 I have some problems focusing on projects so I made this side project to help me focus on some projects.
 
-It leverages the dra and drop html API
+It leverages the drag and drop html API
 
 Not compatible with mobile devices
 
