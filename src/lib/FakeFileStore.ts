@@ -2,10 +2,10 @@ import type { Board } from "./model";
 import { v4 as uuidv4 } from 'uuid';
 
 export const getBoard = () : Board => {
-    try{
-        return getSavedBoard();
+    var result = getSavedBoard();
+    if(result){
+        return result;
     }
-    catch{
     // If no board is present use a default one 
     return {
         id: uuidv4(),
@@ -32,5 +32,5 @@ export const setBoard = (board: Board) => {
 }
 
 const getSavedBoard = () : Board => {
-    return JSON.parse(localStorage.getItem("svelteboard-board")!);
+    return JSON.parse(localStorage.getItem("svelteboard-board"));
 }
