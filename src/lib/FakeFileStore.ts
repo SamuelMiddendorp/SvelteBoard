@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export const getBoard = () : Board => {
     var result = getSavedBoard();
-    if(result){
+    if(result && result.lanes.length > 1){
         return result;
     }
     // If no board is present use a default one 
