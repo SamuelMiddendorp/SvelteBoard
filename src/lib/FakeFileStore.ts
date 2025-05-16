@@ -22,8 +22,7 @@ export const getBoard = () : Board => {
             title: "My third lane",
             items: []
         },
-        ],
-    }
+        ]
     }
 }
 
